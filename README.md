@@ -177,9 +177,3 @@ When contributing, follow conventional commits and run `npm run lint`.
 This project currently has **no license** file. If you plan to open‑source, consider adding an OSI‑approved license (e.g., MIT).
 
 ---
-
-## 🙌 Acknowledgements
-
-- Clerk, Drizzle ORM, Neon
-- Google Gemini team
-- shadcn/ui, Tailwind CSS
