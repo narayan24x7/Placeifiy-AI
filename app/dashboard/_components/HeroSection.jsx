@@ -5,10 +5,10 @@ import Link from "next/link";
 import React from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { MdOutlineWidgets } from "react-icons/md";
-import { useUser } from "@clerk/nextjs"; // ✅ Clerk hook
+import { useUser } from "@clerk/nextjs"; //  Clerk hook
 
 const HeroSection = () => {
-  const { isSignedIn } = useUser(); // ✅ check login state
+  const { isSignedIn } = useUser(); //  check login state
 
   return (
     <>
@@ -40,23 +40,39 @@ const HeroSection = () => {
           </p>
 
           <div className="flex flex-col md:flex-row gap-2 justify-center mt-6 md:mt-10">
-            {/* ✅ Show Dashboard if signed in */}
-            {isSignedIn && (
-              <Link href={"/dashboard"}>
-                <Button className="flex justify-center gap-2 bg-slate-800 p-4 md:p-6 text-base md:text-md hover:bg-slate-700 rounded-lg">
-                  Dashboard
-                  <AiOutlineUser />
-                </Button>
-              </Link>
+            {isSignedIn ? (
+              //  Logged in → Dashboard + Know More
+              <>
+                <Link href={"/dashboard"}>
+                  <Button className="flex justify-center gap-2 bg-slate-800 p-4 md:p-6 text-base md:text-md hover:bg-slate-700 rounded-lg">
+                    Dashboard
+                    <AiOutlineUser />
+                  </Button>
+                </Link>
+                <Link href={"/about"}>
+                  <Button className="flex justify-center gap-2 bg-blue-500 p-4 md:p-6 hover:bg-blue-800 text-base md:text-md rounded-lg">
+                    Know More
+                    <MdOutlineWidgets />
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              //  Logged out → Register Now + Know More
+              <>
+                <Link href={"/sign-up"}>
+                  <Button className="flex justify-center gap-2 bg-slate-800 p-4 md:p-6 text-base md:text-md hover:bg-slate-700 rounded-lg">
+                    Register Now
+                    <AiOutlineUser />
+                  </Button>
+                </Link>
+                <Link href={"/about"}>
+                  <Button className="flex justify-center gap-2 bg-blue-500 p-4 md:p-6 hover:bg-blue-800 text-base md:text-md rounded-lg">
+                    Know More
+                    <MdOutlineWidgets />
+                  </Button>
+                </Link>
+              </>
             )}
-
-            {/* ✅ Always show Know More */}
-            <Link href={"/sign-up"}>
-              <Button className="flex justify-center gap-2 bg-blue-500 p-4 md:p-6 hover:bg-blue-800 text-base md:text-md rounded-lg">
-                Know More
-                <MdOutlineWidgets />
-              </Button>
-            </Link>
           </div>
         </div>
       </div>
