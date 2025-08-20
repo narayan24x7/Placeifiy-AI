@@ -41,18 +41,12 @@ const HeroSection = () => {
 
           <div className="flex flex-col md:flex-row gap-2 justify-center mt-6 md:mt-10">
             {isSignedIn ? (
-              //  Logged in → Dashboard + Know More
+              //  Logged in → Dashboard
               <>
                 <Link href={"/dashboard"}>
                   <Button className="flex justify-center gap-2 bg-slate-800 p-4 md:p-6 text-base md:text-md hover:bg-slate-700 rounded-lg">
                     Dashboard
                     <AiOutlineUser />
-                  </Button>
-                </Link>
-                <Link href={"/about"}>
-                  <Button className="flex justify-center gap-2 bg-blue-500 p-4 md:p-6 hover:bg-blue-800 text-base md:text-md rounded-lg">
-                    Know More
-                    <MdOutlineWidgets />
                   </Button>
                 </Link>
               </>
