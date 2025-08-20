@@ -65,7 +65,7 @@ const HeroSection = () => {
                     <AiOutlineUser />
                   </Button>
                 </Link>
-                <Link href={"/about"}>
+                <Link href={"/sign-up"}>
                   <Button className="flex justify-center gap-2 bg-blue-500 p-4 md:p-6 hover:bg-blue-800 text-base md:text-md rounded-lg">
                     Know More
                     <MdOutlineWidgets />
