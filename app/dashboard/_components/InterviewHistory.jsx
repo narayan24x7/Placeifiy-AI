@@ -28,7 +28,6 @@ function InterviewHistory() {
   };
 
   const handleDeleteSuccess = (mockId) => {
-    // Filter out the deleted interview from the state
     setInterviewList(
       interviewList.filter((interview) => interview.mockId !== mockId)
     );
@@ -36,16 +35,22 @@ function InterviewHistory() {
 
   return (
     <div>
-      <h2 className="font-medium text-xl">Previous Mock Interview</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-3">
-        {interviewList.map((interview) => (
-          <InterviewCard
-            interview={interview}
-            key={interview.mockId} // Use a unique identifier as the key
-            onDeleteSuccess={handleDeleteSuccess} // Pass the delete handler
-          />
-        ))}
-      </div>
+      {interviewList.length > 0 ? (
+        <>
+          <h2 className="font-medium text-xl">Previous Mock Interview</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-3">
+            {interviewList.map((interview) => (
+              <InterviewCard
+                interview={interview}
+                key={interview.mockId}
+                onDeleteSuccess={handleDeleteSuccess}
+              />
+            ))}
+          </div>
+        </>
+      ) : (
+        <p className="text-gray-500 italic">No mock interviews found</p>
+      )}
     </div>
   );
 }
