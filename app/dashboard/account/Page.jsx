@@ -2,14 +2,14 @@
 
 import { UserProfile } from "@clerk/nextjs";
 
-const Account = () => {
+export default function AccountPage() {
   return (
     <div className="flex justify-center items-center min-h-[80vh] bg-gray-50 p-6">
       <div className="w-full max-w-2xl bg-white shadow-lg rounded-xl p-6">
         <h1 className="text-2xl font-bold text-center text-indigo-600 mb-6">
           Account Settings
         </h1>
-        {/* Clerk handles profile, email, password, sessions, etc */}
+        {/* ✅ Clerk UserProfile includes email, password (with old password), and more */}
         <UserProfile
           appearance={{
             elements: {
@@ -22,6 +22,4 @@ const Account = () => {
       </div>
     </div>
   );
-};
-
-export default Account;
+}
