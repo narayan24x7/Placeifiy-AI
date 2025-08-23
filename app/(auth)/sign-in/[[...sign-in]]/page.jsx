@@ -1,11 +1,10 @@
-// Code by Nk
-import { SignUp } from "@clerk/nextjs";
+// Code by Utsav Patel
+import { SignIn } from "@clerk/nextjs";
 
 export default function Page() {
   return (
     <section className="bg-white">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-        {/* Left Side */}
         <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
           <img
             alt=""
@@ -14,16 +13,15 @@ export default function Page() {
           />
 
           <div className="hidden lg:relative lg:block lg:p-12">
-            {/* ✅ fixed logo */}
             <a className="block text-white" href="#">
-              <img src="/logo4.png" width={200} height={200} alt="Placifiy-AI Logo" />
+              <img src="/logo8.png" width={200} height={200} />
             </a>
 
-            <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl text-left">
-              Welcome to Placeifiy-AI
+            <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
+              Welcome to Placifiy-AI
             </h2>
 
-            <p className="mt-4 leading-relaxed text-white/90 text-left">
+            <p className="mt-4 leading-relaxed text-white/90">
               "Elevate your career with intelligent mock interviews and
               personalized resume building. Transform your job search and stand
               out to employers with our advanced AI technology."
@@ -31,7 +29,6 @@ export default function Page() {
           </div>
         </section>
 
-        {/* Right Side */}
         <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6 bg-black">
           <div className="max-w-xl lg:max-w-3xl">
             <div className="relative -mt-16 block lg:hidden">
@@ -40,28 +37,26 @@ export default function Page() {
                 href="#"
               >
                 <span className="sr-only">Home</span>
-                {/* ✅ fixed mobile logo */}
                 <img
                   src="/logo4.png"
-                  alt="Placifiy-AI Logo"
+                  alt="my responsive logo"
                   width={50}
                   height={50}
                 />
               </a>
 
-              <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl md:text-4xl text-left">
-                Welcome to Placeifiy-AI
+              <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
+                Welcome to CareerBoost-AI
               </h1>
 
-              {/* ✅ text aligned left instead of justify */}
-              <p className="mt-4 leading-relaxed text-gray-500 mb-10 text-left">
+              <p className="mt-4 leading-relaxed text-gray-500 mb-10 text-justify">
                 "Elevate your career with intelligent mock interviews and
                 personalized resume building. Transform your job search and
                 stand out to employers with our advanced AI technology."
               </p>
             </div>
 
-            <SignUp
+            <SignIn
               appearance={{
                 elements: {
                   formButtonPrimary: {
