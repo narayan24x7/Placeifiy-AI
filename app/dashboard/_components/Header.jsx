@@ -24,6 +24,7 @@ function Header() {
   const NavigateToUpgrade = () => router.push("/dashboard/upgrade");
   const NavigateToAboutDeveloper = () => router.push("/aboutdeveloper");
   const NavigateToHowItWorks = () => router.push("/#howitworks");
+  const NavigateToAccount = () => router.push("/dashboard/account"); // ✅ new account page
 
   useEffect(() => {
     console.log("Current Path:", path);
@@ -102,12 +103,28 @@ function Header() {
               </span>
               About Developer
             </li>
+
+            {/* ✅ New Account link when signed in */}
+            {isSignedIn && (
+              <li
+                className={`flex gap-1 font-extrabold pr-4 pl-4 hover:bg-slate-800 hover:rounded-md hover:text-slate-200 transition-all cursor-pointer p-2 ${
+                  path === "/dashboard/account" && "text-cyan-700 font-bold"
+                }`}
+                onClick={NavigateToAccount}
+              >
+                <span className="p-1">
+                  <FaUser className="w-4 h-4" />
+                </span>
+                Account
+              </li>
+            )}
           </ul>
         </div>
 
         {/* Right side - Login or User */}
         {isSignedIn ? (
-          <UserButton />
+          // ✅ Redirect to sign-in with status=logged_out after logout
+          <UserButton afterSignOutUrl="/sign-in?status=logged_out" />
         ) : (
           <Button className="flex gap-2 justify-center bg-transparent font-bold text-black hover:bg-slate-800 hover:text-slate-300 w-[100px]">
             <SignInButton>Login</SignInButton>
