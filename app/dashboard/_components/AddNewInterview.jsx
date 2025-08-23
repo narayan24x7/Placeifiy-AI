@@ -146,12 +146,12 @@ function AddNewInterview() {
                       </label>
                       <Input
                         placeholder="Ex. Full Stack Developer"
-                        required
                         autoComplete="off"
                         onChange={(event) =>
                           setJobPosition(event.target.value)
                         }
                         className="mt-2 bg-slate-100"
+                        required
                       />
                     </div>
                     <div className="my-3">
