@@ -9,12 +9,12 @@ const AIpower = () => {
       <div className="grid md:grid-cols-2 gap-14 justify-between w-full p-14">
         <div className="md:text-4xl text-3xl font-extrabold text-gray-700 md:mt-10">
           <span className="text-blue-500">AI Insights:</span> The Technology
-          Behind Placifiy-AI
+          Behind Placeifiy-AI
           <p className="text-xl font-medium md:text-justify my-5">
-            At Placifiy-AI, we utilize a combination of cutting-edge tools
+            At Placeifiy-AI, we utilize a combination of cutting-edge tools
             and technologies to provide an immersive, AI-powered mock interview
             experience. Here's a deep dive into the core components that make
-            Placifiy-AI work
+            Placeifiy-AI work
           </p>
         </div>
         <div className="grid md:grid-cols-2 gap-3 p-5">
@@ -24,7 +24,7 @@ const AIpower = () => {
               Gemini AI
             </span>
             <p className="text-md my-2">
-              Placifiy-AI is the Gemini AI, a powerful engine responsible for
+              Placeifiy-AI is the Gemini AI, a powerful engine responsible for
               generating intelligent, role-specific interview questions.
             </p>
           </div>
@@ -34,7 +34,7 @@ const AIpower = () => {
               Next.js
             </span>
             <p className="text-md my-2">
-              Placifiy-AI using Next.js, a powerful React framework that
+              Placeifiy-AI using Next.js, a powerful React framework that
               allows for server-side rendering (SSR).
             </p>
           </div>
