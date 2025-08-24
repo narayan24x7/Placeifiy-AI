@@ -32,68 +32,70 @@ function AddNewInterview() {
   const { isSignedIn, user } = useUser();
 
   const onSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+    e.preventDefault();
 
-  const InputPrompt = `Job Position: ${jobPosition}, Job Description: ${jobDesc}, Years of Experience: ${jobExperience}. Depends on Job Position, Job Description & Years of Experience, give me the ${process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUNT} interview questions along with answers in JSON format.`;
-
-  try {
-    // Get response from chat AI session
-    const result = await chatSession.sendMessage(InputPrompt);
-
-    // Log the raw response
-    const rawResponse = await result.response.text();
-    console.log("Raw Response:", rawResponse);
-
-    // Extract only the JSON part using regex (for more advanced cleaning)
-    let jsonStart = rawResponse.indexOf("[");
-    let jsonEnd = rawResponse.lastIndexOf("]");
-    
-    // Validate if the array markers were found
-    if (jsonStart !== -1 && jsonEnd !== -1) {
-      let cleanedResponse = rawResponse.substring(jsonStart, jsonEnd + 1);
-
-      try {
-        const MockJsonResp = JSON.parse(cleanedResponse); // Parse JSON
-        console.log("Parsed Response:", MockJsonResp);
-
-        // Optimistic UI Update (Show data immediately)
-        setJsonResponse(MockJsonResp);
-
-        // Insert into DB
-        const resp = await db
-          .insert(MockInterview)
-          .values({
-            mockId: uuidv4(),
-            jsonMockResp: cleanedResponse, // Store cleaned JSON
-            jobPosition: jobPosition,
-            jobDesc: jobDesc,
-            jobExperience: jobExperience,
-            createdBy: user?.primaryEmailAddress?.emailAddress,
-            createdAt: moment().format("DD-MM-yyyy"),
-          })
-          .returning({ mockId: MockInterview.mockId });
-
-        console.log("Inserted ID: ", resp);
-
-        // After insertion, update UI and route to the new interview
-        if (resp) {
-          setOpenDialog(false);
-          router.push("/dashboard/interview/" + resp[0]?.mockId);
-        }
-      } catch (parseError) {
-        console.error("JSON Parsing Error:", parseError, cleanedResponse);
-      }
-    } else {
-      console.error("No valid JSON found in response");
+    // ✅ Prevent whitespace-only input
+    if (
+      !jobPosition.trim() ||
+      !jobDesc.trim() ||
+      !jobExperience.toString().trim()
+    ) {
+      alert("All fields are required and cannot be empty/whitespace only.");
+      return;
     }
-  } catch (error) {
-    console.error("Error during AI session or DB insertion:", error);
-  }
 
-  setLoading(false);
-};
+    setLoading(true);
 
+    const InputPrompt = `Job Position: ${jobPosition}, Job Description: ${jobDesc}, Years of Experience: ${jobExperience}. Depends on Job Position, Job Description & Years of Experience, give me the ${process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUNT} interview questions along with answers in JSON format.`;
+
+    try {
+      const result = await chatSession.sendMessage(InputPrompt);
+      const rawResponse = await result.response.text();
+      console.log("Raw Response:", rawResponse);
+
+      let jsonStart = rawResponse.indexOf("[");
+      let jsonEnd = rawResponse.lastIndexOf("]");
+
+      if (jsonStart !== -1 && jsonEnd !== -1) {
+        let cleanedResponse = rawResponse.substring(jsonStart, jsonEnd + 1);
+
+        try {
+          const MockJsonResp = JSON.parse(cleanedResponse);
+          console.log("Parsed Response:", MockJsonResp);
+
+          setJsonResponse(MockJsonResp);
+
+          const resp = await db
+            .insert(MockInterview)
+            .values({
+              mockId: uuidv4(),
+              jsonMockResp: cleanedResponse,
+              jobPosition: jobPosition.trim(), // ✅ trimmed
+              jobDesc: jobDesc.trim(), // ✅ trimmed
+              jobExperience: jobExperience.toString().trim(), // ✅ trimmed
+              createdBy: user?.primaryEmailAddress?.emailAddress,
+              createdAt: moment().format("DD-MM-yyyy"),
+            })
+            .returning({ mockId: MockInterview.mockId });
+
+          console.log("Inserted ID: ", resp);
+
+          if (resp) {
+            setOpenDialog(false);
+            router.push("/dashboard/interview/" + resp[0]?.mockId);
+          }
+        } catch (parseError) {
+          console.error("JSON Parsing Error:", parseError, cleanedResponse);
+        }
+      } else {
+        console.error("No valid JSON found in response");
+      }
+    } catch (error) {
+      console.error("Error during AI session or DB insertion:", error);
+    }
+
+    setLoading(false);
+  };
 
   return (
     <>
@@ -142,7 +144,7 @@ function AddNewInterview() {
                     </h2>
                     <div className="mt-7 my-3">
                       <label className="text-gray-600 font-bold">
-                        Job Role / Job Position
+                        Job Role / Job Position <span className="text-red-500">*</span>
                       </label>
                       <Input
                         placeholder="Ex. Full Stack Developer"
@@ -156,7 +158,7 @@ function AddNewInterview() {
                     </div>
                     <div className="my-3">
                       <label className="text-gray-600 font-bold">
-                        Job Description / Tech Stack
+                        Job Description / Tech Stack <span className="text-red-500">*</span>
                       </label>
                       <Textarea
                         className="mt-2 bg-slate-100"
@@ -168,7 +170,7 @@ function AddNewInterview() {
                     </div>
                     <div className="my-3">
                       <label className="text-gray-600 font-bold">
-                        Years of Experience
+                        Years of Experience <span className="text-red-500">*</span>
                       </label>
                       <Input
                         className="mt-2 bg-slate-100 mb-5"
