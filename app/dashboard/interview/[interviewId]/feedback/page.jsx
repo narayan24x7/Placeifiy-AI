@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../../../../../utils/db";
 import { UserAnswer } from "../../../../../utils/schema";
-import { eq } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 import {
   Collapsible,
   CollapsibleContent,
@@ -15,28 +15,33 @@ import { MdOutlineDashboardCustomize } from "react-icons/md";
 
 function Feedback({ params }) {
   const [feedbackList, setFeedbackList] = useState([]);
-
   const router = useRouter();
 
   useEffect(() => {
-    GetFeedback();
-  }, []);
+    if (params?.interviewId) {
+      GetFeedback();
+    }
+  }, [params?.interviewId]);
 
   const GetFeedback = async () => {
-    const result = await db
-      .select()
-      .from(UserAnswer)
-      .where(eq(UserAnswer.mockIdRef, params.interviewId))
-      .orderBy(UserAnswer.id);
+    try {
+      const result = await db
+        .select()
+        .from(UserAnswer)
+        .where(eq(UserAnswer.mockIdRef, params.interviewId))
+        .orderBy(asc(UserAnswer.id)); // ✅ FIX: use asc()
 
-    console.log(result);
-    setFeedbackList(result);
+      console.log(result);
+      setFeedbackList(result);
+    } catch (error) {
+      console.error("Error fetching feedback:", error);
+    }
   };
 
   return (
     <>
       <div className="p-10">
-        {feedbackList?.length == 0 ? (
+        {feedbackList?.length === 0 ? (
           <h2 className="font-bold text-xl text-gray-500">
             No Interview Feedback Record Found
           </h2>

@@ -26,10 +26,11 @@ function InterviewCard({ interview, onDeleteSuccess }) {
 
     if (confirmation) {
       try {
-        // Deleting the interview by its mockId using Drizzle ORM
+        // ✅ Correct deletion with execute()
         const result = await db
           .delete(MockInterview)
-          .where(eq(MockInterview.mockId, interview?.mockId)); // Correct deletion query syntax
+          .where(eq(MockInterview.mockId, interview?.mockId))
+          .execute();
 
         console.log("Interview deleted successfully:", result);
 
@@ -44,10 +45,10 @@ function InterviewCard({ interview, onDeleteSuccess }) {
 
   return (
     <>
-      <article className="overflow-hidden rounded-lg shadow transition hover:shadow-lg border-2 border-gray-400-1">
+      <article className="overflow-hidden rounded-lg shadow transition hover:shadow-lg border-2 border-gray-400">
         <div className="bg-white p-4 sm:p-6">
           <time className="block text-xs text-gray-600">
-            <span className="font-semibold">Created at:</span>
+            <span className="font-semibold">Created at:</span>{" "}
             {interview?.createdAt}
           </time>
           <a href="#">
@@ -55,15 +56,14 @@ function InterviewCard({ interview, onDeleteSuccess }) {
               <span className="p-1 rounded-sm">
                 <FaGraduationCap className="w-5 h-5" />
               </span>
-              <span className="font-bold">Position -</span>
-              {interview?.jobPosition}
+              <span className="font-bold">Position -</span> {interview?.jobPosition}
             </h3>
           </a>
           <h3 className="flex gap-1 text-md text-gray-900 font-sans">
             <span className="p-1 rounded-sm">
               <MdOutlineWork className="w-5 h-5" />
             </span>
-            <span className="font-bold">Years of Experience - </span>
+            <span className="font-bold">Years of Experience - </span>{" "}
             {interview?.jobExperience}
           </h3>
           <Button
