@@ -1,6 +1,7 @@
 import React from "react";
-import AddNewInterView from "./_components/AddNewInterview";
+import AddNewInterview from "./_components/AddNewInterview"; 
 import InterviewHistory from "./_components/InterviewHistory";
+
 function Dashboard() {
   return (
     <div className="p-10">
@@ -9,7 +10,7 @@ function Dashboard() {
         Create and Start your AI Mockup Interview
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 my-5">
-        <AddNewInterView />
+        <AddNewInterview /> {/* ✅ fixed component call */}
       </div>
       {/* Previous Interview List */}
       <InterviewHistory />
