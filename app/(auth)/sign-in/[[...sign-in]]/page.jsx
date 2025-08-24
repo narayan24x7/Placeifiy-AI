@@ -1,4 +1,3 @@
-// Code by Utsav Patel
 import { SignIn } from "@clerk/nextjs";
 
 export default function Page() {
@@ -46,7 +45,7 @@ export default function Page() {
               </a>
 
               <h1 className="mt-2 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
-                Welcome to CareerBoost-AI
+                Welcome to Placeifiy-AI
               </h1>
 
               <p className="mt-4 leading-relaxed text-gray-500 mb-10 text-justify">
