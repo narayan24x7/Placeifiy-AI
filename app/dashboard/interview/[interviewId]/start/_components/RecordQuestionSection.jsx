@@ -11,7 +11,6 @@ import { db } from "../../../../../../utils/db";
 import { UserAnswer } from "../../../../../../utils/schema";
 import { useUser } from "@clerk/nextjs";
 import moment from "moment";
-import { ConsoleLogWriter } from "drizzle-orm";
 
 function RecordQuestionSection({
   mockInterviewQuestion,
@@ -41,7 +40,8 @@ function RecordQuestionSection({
   }, [results]);
 
   useEffect(() => {
-    if (!isRecording && userAnswer.length > 10) {
+    //  Ensure trimmed answer has length
+    if (!isRecording && userAnswer.trim().length > 10) {
       UpdateUserAnswer();
     }
   }, [userAnswer]);
@@ -51,45 +51,73 @@ function RecordQuestionSection({
       stopSpeechToText();
       console.log(userAnswer);
     } else {
+      setUserAnswer(""); //  reset before new recording
       startSpeechToText();
     }
   };
 
   const UpdateUserAnswer = async () => {
-    console.log(userAnswer);
+    const finalAnswer = userAnswer.trim(); //  trim spaces
+    if (!finalAnswer) {
+      toast("Answer cannot be empty.");
+      return;
+    }
+
+    console.log(finalAnswer);
     setLoading(true);
+
     const feedbackPrompt =
       "Question:" +
       mockInterviewQuestion[activeQuestionIndex]?.question +
       ", User Answer: " +
-      userAnswer +
+      finalAnswer +
       " ,Depends on question and user answer for give interview question" +
       " please give us rating for answer and feedback as area of improvement" +
-      "in just 3 to 5 lines to improve it in JSON format with rating field and feedback field ";
+      " in just 3 to 5 lines to improve it in JSON format with rating field and feedback field ";
 
-    const result = await chatSession.sendMessage(feedbackPrompt);
-    const mockJsonResp = result.response
-      .text()
-      .replace("```json", "")
-      .replace("```", "");
-    console.log(mockJsonResp);
-    const JsonFeedbackResp = JSON.parse(mockJsonResp);
+    try {
+      const result = await chatSession.sendMessage(feedbackPrompt);
+      let mockJsonResp = await result.response.text();
 
-    const resp = await db.insert(UserAnswer).values({
-      mockIdRef: interviewData?.mockId,
-      question: mockInterviewQuestion[activeQuestionIndex]?.question,
-      correctAns: mockInterviewQuestion[activeQuestionIndex]?.answer,
-      userAns: userAnswer,
-      feedback: JsonFeedbackResp?.feedback,
-      rating: JsonFeedbackResp?.rating,
-      userEmail: user?.primaryEmailAddress.emailAddress,
-      createdAt: moment().format("DD-MM-yyyy"),
-    });
-    if (resp) {
-      toast("User Answer Recorded successfully.");
-      setUserAnswer("");
-      setResults([]);
+      //  Clean extra formatting from AI
+      mockJsonResp = mockJsonResp
+        .replace("```json", "")
+        .replace("```", "")
+        .trim();
+
+      console.log("AI JSON Response:", mockJsonResp);
+
+      let JsonFeedbackResp;
+      try {
+        JsonFeedbackResp = JSON.parse(mockJsonResp);
+      } catch (err) {
+        console.error("JSON Parse Error:", err, mockJsonResp);
+        toast("AI response parsing failed.");
+        setLoading(false);
+        return;
+      }
+
+      const resp = await db.insert(UserAnswer).values({
+        mockIdRef: interviewData?.mockId,
+        question: mockInterviewQuestion[activeQuestionIndex]?.question,
+        correctAns: mockInterviewQuestion[activeQuestionIndex]?.answer,
+        userAns: finalAnswer,
+        feedback: JsonFeedbackResp?.feedback,
+        rating: JsonFeedbackResp?.rating,
+        userEmail: user?.primaryEmailAddress?.emailAddress || "unknown", //  safety check
+        createdAt: moment().format("DD-MM-yyyy"),
+      });
+
+      if (resp) {
+        toast("User Answer Recorded successfully.");
+        setUserAnswer("");
+        setResults([]);
+      }
+    } catch (error) {
+      console.error("Error saving answer:", error);
+      toast("Something went wrong while saving answer.");
     }
+
     setResults([]);
     setLoading(false);
   };
