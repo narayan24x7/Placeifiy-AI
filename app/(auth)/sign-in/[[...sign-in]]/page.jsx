@@ -18,13 +18,13 @@ export default function Page() {
             </a>
 
             <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
-              Welcome to Placifiy-AI
+              Welcome to Placeifiy-AI
             </h2>
 
             <p className="mt-4 leading-relaxed text-white/90">
-              "Elevate your career with intelligent mock interviews and
+              Elevate your career with intelligent mock interviews and
               personalized resume building. Transform your job search and stand
-              out to employers with our advanced AI technology."
+              out to employers with our advanced AI technology.
             </p>
           </div>
         </section>
