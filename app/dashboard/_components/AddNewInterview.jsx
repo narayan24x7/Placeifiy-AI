@@ -14,7 +14,7 @@ import {
 } from "../../../components/ui/dialog";
 import { chatSession } from "../../../utils/GeminiAIModal";
 import { db } from "../../../utils/db";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, LoaderPinwheel } from "lucide-react";
 import { MockInterview } from "../../../utils/schema";
 import { v4 as uuidv4 } from "uuid";
 import { useUser } from "@clerk/nextjs";
@@ -34,13 +34,13 @@ function AddNewInterview() {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    // ✅ Prevent whitespace-only input
+    //  Prevent whitespace-only input
     if (
       !jobPosition.trim() ||
       !jobDesc.trim() ||
       !jobExperience.toString().trim()
     ) {
-      alert("All fields are required and cannot be empty/whitespace only.");
+      alert("All fields are required and cannot be empty.");
       return;
     }
 
@@ -199,8 +199,8 @@ function AddNewInterview() {
                     >
                       {loading ? (
                         <>
-                          <LoaderCircle className="animate-spin" />
-                          'Generating from AI'
+                          <LoaderPinwheel className="animate-spin" />
+                          Generating from AI
                         </>
                       ) : (
                         "Start Interview"
