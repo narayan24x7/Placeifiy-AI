@@ -22,7 +22,7 @@ const HomeStats = () => {
             </a>
 
             <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500 md:text-justify sm:text-center">
-              Start by signing up for Placifiy-AI and creating your profile
+              Start by signing up for Placeifiy-AI and creating your profile
               in just a few clicks. Fill in your details like industry, role,
               and career goals to get the most accurate mock interview
               experiences. Your information helps us tailor the questions and
@@ -60,7 +60,7 @@ const HomeStats = () => {
               Select from a wide range of interview types, such as technical,
               behavioral, or case-based interviews. Whether you're preparing for
               a software engineering role or a marketing position,
-              Placifiy-AI provides customized mock interview scenarios to fit
+              Placeifiy-AI provides customized mock interview scenarios to fit
               your needs.
             </p>
 
@@ -129,7 +129,7 @@ const HomeStats = () => {
             <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500 text-justify">
               After completing your interview, receive immediate feedback with
               insights on your strengths and areas for improvement.
-              Placifiy-AI provides in-depth suggestions and tips to enhance
+              Placeifiy-AI provides in-depth suggestions and tips to enhance
               your answers, helping you get interview-ready. Use this feedback
               to continuously improve and ace real interviews.
             </p>
