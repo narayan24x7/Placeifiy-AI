@@ -12,11 +12,10 @@ import { ChevronsUpDown } from "lucide-react";
 import { Button } from "../../../../../components/ui/button";
 import { useRouter } from "next/navigation";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
-import jsPDF from "jspdf";              // ✅ Added
-import "jspdf-autotable";               // ✅ Added
 
 function Feedback({ params }) {
   const [feedbackList, setFeedbackList] = useState([]);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -32,38 +31,6 @@ function Feedback({ params }) {
 
     console.log(result);
     setFeedbackList(result);
-  };
-
-  // 📄 Download as PDF
-  const downloadPDF = () => {
-    const doc = new jsPDF();
-
-    doc.setFontSize(18);
-    doc.text("Placifiy-AI - Interview Feedback Report", 14, 20);
-
-    const tableData = feedbackList.map((item, idx) => [
-      idx + 1,
-      item.question,
-      item.userAns,
-      item.correctAns,
-      item.feedback,
-      item.rating,
-    ]);
-
-    doc.autoTable({
-      head: [["#", "Question", "Your Answer", "Correct Answer", "Feedback", "Rating"]],
-      body: tableData,
-      startY: 30,
-      styles: { fontSize: 9, cellWidth: "wrap" },
-      columnStyles: {
-        1: { cellWidth: 50 },
-        2: { cellWidth: 40 },
-        3: { cellWidth: 40 },
-        4: { cellWidth: 50 },
-      },
-    });
-
-    doc.save("interview-feedback.pdf");
   };
 
   return (
@@ -85,15 +52,6 @@ function Feedback({ params }) {
               Find below interview question with correct answer, Your answer and
               feedback for improvement.
             </h2>
-
-            {/* ✅ New Download PDF Button */}
-            <Button
-              onClick={downloadPDF}
-              className="my-4 bg-purple-600 hover:bg-purple-800 text-white"
-            >
-              Download Feedback as PDF
-            </Button>
-
             {feedbackList &&
               feedbackList.map((item, index) => (
                 <Collapsible key={index} className="mt-7">
