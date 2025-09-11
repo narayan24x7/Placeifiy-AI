@@ -91,20 +91,6 @@ function Header() {
               </span>
               How it works
             </li>
-            <li
-              className={`flex gap-1 font-extrabold pr-4 pl-4 hover:bg-slate-800 hover:rounded-md hover:text-slate-200 transition-all cursor-pointer p-2 ${
-                path === "/aboutdeveloper" && "text-cyan-700 font-bold"
-              }`}
-              onClick={NavigateToAboutDeveloper}
-            >
-              <span className="p-1">
-                <FaUserCircle className="w-4 h-4" />
-              </span>
-              About Developer
-            </li>
-          </ul>
-        </div>
-
         {/* Right side - Login or User */}
         {isSignedIn ? (
           <UserButton />
