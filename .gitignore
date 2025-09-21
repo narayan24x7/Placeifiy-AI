@@ -10,8 +10,6 @@
 /coverage
 
 
-.clerk/.tmp
-
 # next.js
 /.next/
 /out/
